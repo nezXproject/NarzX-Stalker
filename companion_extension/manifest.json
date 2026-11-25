@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "NarzX Search Companion",
+  "version": "1.0.0",
+  "description": "Local companion for NarzX Search. Runs Google searches in your browser for your own privacy self-audit, then cleans up. No telemetry.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "companion@narzx-search.local",
+      "strict_min_version": "109.0",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  },
+  "permissions": ["tabs", "history"],
+  "background": { "scripts": ["background.js"] },
+  "content_scripts": [
+    {
+      "matches": ["http://127.0.0.1:7878/*", "http://localhost:7878/*"],
+      "js": ["bridge.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.google.com/search*", "https://www.google.com/sorry/*"],
+      "js": ["results.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
